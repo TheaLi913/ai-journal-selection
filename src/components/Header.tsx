@@ -1,4 +1,4 @@
-import { BookOpen, Database, FileOutput } from "lucide-react";
+import { BookOpen, History, FileOutput } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 interface HeaderProps {
@@ -11,7 +11,7 @@ const Header = ({ disableResults = false }: HeaderProps) => {
   const navItems = [
     { path: "/", label: "Core Function", icon: BookOpen, disabled: false },
     { path: "/results", label: "Results", icon: FileOutput, disabled: disableResults },
-    { path: "/data", label: "Data Maintenance", icon: Database, disabled: false },
+    { path: "/records", label: "Records", icon: History, disabled: false },
   ];
 
   return (
