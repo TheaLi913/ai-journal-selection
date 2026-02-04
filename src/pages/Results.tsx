@@ -1,13 +1,20 @@
 import { useState, useMemo } from "react";
-import { Download, FileOutput, ArrowLeft } from "lucide-react";
+import { Download, FileOutput, ArrowLeft, Filter } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import ColumnVisibilityToggle from "@/components/ColumnVisibilityToggle";
 import ResultCountSelector from "@/components/ResultCountSelector";
 import JournalResultsTable from "@/components/JournalResultsTable";
+import QuartileSelector from "@/components/QuartileSelector";
+import JournalTypeSelector from "@/components/JournalTypeSelector";
 import { mockJournalResults } from "@/data/mockJournals";
 import { COLUMN_CONFIGS, ColumnKey, JournalResult } from "@/types/journal";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 const Results = () => {
   const [resultCount, setResultCount] = useState(8);
@@ -15,16 +22,30 @@ const Results = () => {
   const [visibleColumns, setVisibleColumns] = useState<ColumnKey[]>(
     COLUMN_CONFIGS.filter((c) => c.defaultVisible).map((c) => c.key)
   );
+  const [selectedQuartiles, setSelectedQuartiles] = useState<string[]>([]);
+  const [journalType, setJournalType] = useState<string | null>(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
 
-  const sortedData = useMemo(() => {
-    return [...mockJournalResults].sort((a, b) =>
+  // Filter and sort data
+  const filteredAndSortedData = useMemo(() => {
+    let data = [...mockJournalResults];
+    
+    // Filter by quartile
+    if (selectedQuartiles.length > 0) {
+      data = data.filter((journal) => selectedQuartiles.includes(journal.quartile));
+    }
+    
+    // Sort by score
+    data.sort((a, b) =>
       sortDirection === "desc" ? b.score - a.score : a.score - b.score
     );
-  }, [sortDirection]);
+    
+    return data;
+  }, [selectedQuartiles, sortDirection]);
 
   const displayedData = useMemo(() => {
-    return sortedData.slice(0, resultCount);
-  }, [sortedData, resultCount]);
+    return filteredAndSortedData.slice(0, resultCount);
+  }, [filteredAndSortedData, resultCount]);
 
   const handleColumnToggle = (column: ColumnKey) => {
     setVisibleColumns((prev) =>
@@ -39,10 +60,12 @@ const Results = () => {
   };
 
   const handleExport = () => {
-    // Sort by score descending for export
-    const exportData = [...mockJournalResults]
-      .sort((a, b) => b.score - a.score)
-      .slice(0, resultCount);
+    // Filter first, then sort by score descending for export
+    let exportData = [...mockJournalResults];
+    if (selectedQuartiles.length > 0) {
+      exportData = exportData.filter((journal) => selectedQuartiles.includes(journal.quartile));
+    }
+    exportData.sort((a, b) => b.score - a.score).slice(0, resultCount);
 
     const headers = [
       "Journal Name",
@@ -124,6 +147,51 @@ const Results = () => {
           </div>
         </div>
 
+        {/* Filter Section */}
+        <Collapsible open={isFilterOpen} onOpenChange={setIsFilterOpen} className="mb-6 animate-slide-up">
+          <div className="card-elevated p-4 md:p-6">
+            <CollapsibleTrigger asChild>
+              <button className="flex items-center justify-between w-full text-left">
+                <div className="flex items-center gap-2">
+                  <Filter className="w-5 h-5 text-primary" />
+                  <span className="text-lg font-semibold text-foreground">Filters</span>
+                  {(selectedQuartiles.length > 0 || journalType) && (
+                    <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-accent/10 text-accent">
+                      {selectedQuartiles.length + (journalType ? 1 : 0)} active
+                    </span>
+                  )}
+                </div>
+                <span className="text-sm text-muted-foreground">
+                  {isFilterOpen ? "Hide" : "Show"}
+                </span>
+              </button>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="pt-4 space-y-6">
+              {/* Quartile Filter */}
+              <div>
+                <label className="text-sm font-medium text-foreground mb-3 block">
+                  Quartile Requirements
+                </label>
+                <QuartileSelector
+                  selectedQuartiles={selectedQuartiles}
+                  onSelectionChange={setSelectedQuartiles}
+                />
+              </div>
+              
+              {/* Journal Type Filter */}
+              <div>
+                <label className="text-sm font-medium text-foreground mb-3 block">
+                  Journal Type
+                </label>
+                <JournalTypeSelector
+                  selectedType={journalType}
+                  onSelectionChange={setJournalType}
+                />
+              </div>
+            </CollapsibleContent>
+          </div>
+        </Collapsible>
+
         {/* Controls Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 p-4 bg-card/60 backdrop-blur-sm border border-border rounded-lg animate-slide-up">
           <ResultCountSelector value={resultCount} onChange={setResultCount} />
@@ -145,8 +213,9 @@ const Results = () => {
 
         {/* Summary Footer */}
         <div className="mt-6 text-center text-sm text-muted-foreground">
-          Showing {displayedData.length} of {mockJournalResults.length} matched
+          Showing {displayedData.length} of {filteredAndSortedData.length} matched
           journals
+          {selectedQuartiles.length > 0 && ` (filtered from ${mockJournalResults.length} total)`}
         </div>
       </main>
     </div>
