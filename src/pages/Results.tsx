@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Download, FileOutput, ArrowLeft, Filter } from "lucide-react";
 import { Link } from "react-router-dom";
+import * as XLSX from "xlsx";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import ColumnVisibilityToggle from "@/components/ColumnVisibilityToggle";
@@ -67,46 +68,25 @@ const Results = () => {
     }
     exportData.sort((a, b) => b.score - a.score).slice(0, resultCount);
 
-    const headers = [
-      "Journal Name",
-      "ISSN",
-      "E-ISSN",
-      "Publisher",
-      "Quartile",
-      "Matching Analysis",
-      "Score",
-      "APC",
-      "Profile URL",
-      "Aims & Scopes",
-      "Preferences",
-    ];
+    const worksheetData = exportData.map((journal) => ({
+      "Journal Name": journal.journalName,
+      "ISSN": journal.issn,
+      "E-ISSN": journal.eissn,
+      "Publisher": journal.publisher,
+      "Quartile": `Scopus ${journal.quartile}`,
+      "Matching Analysis": journal.matchingAnalysis.join("; "),
+      "Score": `${journal.score}%`,
+      "APC": journal.apc,
+      "Profile URL": journal.profileUrl,
+      "Aims & Scopes": journal.aimsScopes,
+      "Preferences": journal.preferences,
+    }));
 
-    const csvContent = [
-      headers.join(","),
-      ...exportData.map((journal) =>
-        [
-          `"${journal.journalName}"`,
-          journal.issn,
-          journal.eissn,
-          `"${journal.publisher}"`,
-          `Scopus ${journal.quartile}`,
-          `"${journal.matchingAnalysis.join("; ")}"`,
-          `${journal.score}%`,
-          `"${journal.apc}"`,
-          journal.profileUrl,
-          `"${journal.aimsScopes}"`,
-          `"${journal.preferences}"`,
-        ].join(",")
-      ),
-    ].join("\n");
-
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `journal-matching-results-${new Date().toISOString().split("T")[0]}.csv`;
-    link.click();
-    URL.revokeObjectURL(url);
+    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Journal Results");
+    
+    XLSX.writeFile(workbook, `journal-matching-results-${new Date().toISOString().split("T")[0]}.xlsx`);
   };
 
   return (
@@ -142,7 +122,7 @@ const Results = () => {
               className="btn-primary-gradient gap-2 self-start md:self-auto"
             >
               <Download className="h-4 w-4" />
-              Export CSV
+              Export Excel
             </Button>
           </div>
         </div>
