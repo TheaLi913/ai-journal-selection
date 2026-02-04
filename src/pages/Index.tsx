@@ -33,13 +33,9 @@ const Index = () => {
             <Sparkles className="w-4 h-4" />
             AI-Powered Journal Matching
           </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground mb-4">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground">
             Find the Perfect Journal
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Upload your research article and let our AI analyze your content to recommend 
-            the most suitable journals matching your requirements.
-          </p>
         </div>
 
         {/* Main Form Card */}
@@ -84,24 +80,6 @@ const Index = () => {
                 </button>
               </div>
             </form>
-          </div>
-
-          {/* Info Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-            {[
-              { title: "Smart Analysis", desc: "AI extracts key topics, methodology, and research focus" },
-              { title: "Accurate Matching", desc: "Matches against comprehensive journal database" },
-              { title: "Complete Info", desc: "Get impact factors, acceptance rates, and more" },
-            ].map((item, index) => (
-              <div 
-                key={index}
-                className="bg-card/60 backdrop-blur-sm border border-border rounded-lg p-4 text-center"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <h3 className="font-medium text-foreground mb-1">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">{item.desc}</p>
-              </div>
-            ))}
           </div>
         </div>
       </main>
