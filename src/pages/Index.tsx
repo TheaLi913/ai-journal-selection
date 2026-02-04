@@ -1,19 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sparkles, ArrowRight, AlertCircle } from "lucide-react";
+import { Sparkles, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import FileUpload from "@/components/FileUpload";
-import QuartileSelector from "@/components/QuartileSelector";
-import JournalTypeSelector from "@/components/JournalTypeSelector";
 
 const Index = () => {
   const navigate = useNavigate();
   const [file, setFile] = useState<File | null>(null);
-  const [selectedQuartiles, setSelectedQuartiles] = useState<string[]>([]);
-  const [journalType, setJournalType] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const canSubmit = file && selectedQuartiles.length > 0;
+  const canSubmit = !!file;
 
   const handleSubmit = async () => {
     if (!canSubmit) return;
@@ -47,7 +43,7 @@ const Index = () => {
         </div>
 
         {/* Main Form Card */}
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-2xl mx-auto">
           <div className="card-elevated p-6 md:p-8 animate-slide-up">
             <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
               {/* File Upload Section */}
@@ -60,51 +56,10 @@ const Index = () => {
                     Required
                   </span>
                 </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Upload your research article for AI analysis. Supported formats: DOC, DOCX, PDF.
+                </p>
                 <FileUpload onFileSelect={setFile} />
-              </div>
-
-              {/* Quartile Selection */}
-              <div className="mb-8">
-                <div className="flex items-center gap-2 mb-4">
-                  <label className="text-lg font-semibold text-foreground">
-                    Quartile Requirements
-                  </label>
-                  <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-destructive/10 text-destructive">
-                    Required
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Select one or more Scopus quartiles to filter journal recommendations.
-                </p>
-                <QuartileSelector 
-                  selectedQuartiles={selectedQuartiles}
-                  onSelectionChange={setSelectedQuartiles}
-                />
-                {selectedQuartiles.length === 0 && (
-                  <p className="text-xs text-muted-foreground mt-3 flex items-center gap-1">
-                    <AlertCircle className="w-3 h-3" />
-                    Please select at least one quartile
-                  </p>
-                )}
-              </div>
-
-              {/* Journal Type Selection */}
-              <div className="mb-8">
-                <div className="flex items-center gap-2 mb-4">
-                  <label className="text-lg font-semibold text-foreground">
-                    Journal Type
-                  </label>
-                  <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-secondary text-muted-foreground">
-                    Optional
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Filter by access type if you have a preference.
-                </p>
-                <JournalTypeSelector 
-                  selectedType={journalType}
-                  onSelectionChange={setJournalType}
-                />
               </div>
 
               {/* Submit Button */}
