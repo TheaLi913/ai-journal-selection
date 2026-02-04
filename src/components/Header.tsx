@@ -1,13 +1,17 @@
 import { BookOpen, Database, FileOutput } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
-const Header = () => {
+interface HeaderProps {
+  disableResults?: boolean;
+}
+
+const Header = ({ disableResults = false }: HeaderProps) => {
   const location = useLocation();
 
   const navItems = [
-    { path: "/", label: "Core Function", icon: BookOpen },
-    { path: "/results", label: "Results", icon: FileOutput },
-    { path: "/data", label: "Data Maintenance", icon: Database },
+    { path: "/", label: "Core Function", icon: BookOpen, disabled: false },
+    { path: "/results", label: "Results", icon: FileOutput, disabled: disableResults },
+    { path: "/data", label: "Data Maintenance", icon: Database, disabled: false },
   ];
 
   return (
@@ -28,6 +32,19 @@ const Header = () => {
             {navItems.map((item) => {
               const isActive = location.pathname === item.path;
               const Icon = item.icon;
+              
+              if (item.disabled) {
+                return (
+                  <span
+                    key={item.path}
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm text-muted-foreground/50 cursor-not-allowed"
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span className="hidden md:inline">{item.label}</span>
+                  </span>
+                );
+              }
+              
               return (
                 <Link
                   key={item.path}

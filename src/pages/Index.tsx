@@ -24,7 +24,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen gradient-hero">
-      <Header />
+      <Header disableResults={!file} />
       
       <main className="container mx-auto px-4 py-8 md:py-12">
         {/* Hero Section */}
