@@ -168,5 +168,257 @@ export const mockJournalResults: JournalResult[] = [
     profileUrl: "https://www.mdpi.com/journal/applsci",
     aimsScopes: "Applied Sciences covers all aspects of applied natural sciences and technology.",
     preferences: "Applied research, technology development, engineering applications"
+  },
+  {
+    id: "9",
+    journalName: "Heliyon",
+    issn: "2405-8440",
+    eissn: "2405-8440",
+    publisher: "Elsevier",
+    quartile: "Q2",
+    accessType: "open",
+    submissionFee: 0,
+    matchingAnalysis: [
+      "Multidisciplinary scope covers wide research areas",
+      "Fast peer review process",
+      "Good visibility in scientific databases",
+      "Transparent editorial process"
+    ],
+    score: 79,
+    apc: "$1,390",
+    profileUrl: "https://www.cell.com/heliyon/home",
+    aimsScopes: "Heliyon is an all-science, open access journal that publishes robust research across all disciplines.",
+    preferences: "Original research, reviews, case studies across all scientific fields"
+  },
+  {
+    id: "10",
+    journalName: "Data in Brief",
+    issn: "2352-3409",
+    eissn: "2352-3409",
+    publisher: "Elsevier",
+    quartile: "Q3",
+    accessType: "open",
+    submissionFee: 0,
+    matchingAnalysis: [
+      "Ideal for publishing datasets alongside main research",
+      "Promotes data sharing and reproducibility",
+      "Quick publication turnaround",
+      "Indexed in major databases"
+    ],
+    score: 68,
+    apc: "$590",
+    profileUrl: "https://www.journals.elsevier.com/data-in-brief",
+    aimsScopes: "Data in Brief provides a way to describe and share research data with the scientific community.",
+    preferences: "Data articles, dataset descriptions, supplementary data publications"
+  },
+  {
+    id: "11",
+    journalName: "F1000Research",
+    issn: "2046-1402",
+    eissn: "2046-1402",
+    publisher: "F1000 Research Ltd",
+    quartile: "Q2",
+    accessType: "open",
+    submissionFee: 0,
+    matchingAnalysis: [
+      "Open peer review enhances transparency",
+      "Rapid publication model",
+      "Post-publication peer review process",
+      "Strong data sharing requirements"
+    ],
+    score: 76,
+    apc: "$1,350",
+    profileUrl: "https://f1000research.com/",
+    aimsScopes: "F1000Research is an open research publishing platform for scientists, scholars and clinicians.",
+    preferences: "Research articles, case reports, software tools, data notes"
+  },
+  {
+    id: "12",
+    journalName: "SAGE Open",
+    issn: "2158-2440",
+    eissn: "2158-2440",
+    publisher: "SAGE Publications",
+    quartile: "Q3",
+    accessType: "open",
+    submissionFee: 0,
+    matchingAnalysis: [
+      "Covers social and behavioral sciences",
+      "Established publisher reputation",
+      "Broad interdisciplinary scope",
+      "Good acceptance rate for quality research"
+    ],
+    score: 65,
+    apc: "$995",
+    profileUrl: "https://journals.sagepub.com/home/sgo",
+    aimsScopes: "SAGE Open is a peer-reviewed, open access journal that publishes original research in the social and behavioral sciences.",
+    preferences: "Original research, methodological innovations, theoretical contributions"
+  },
+  {
+    id: "13",
+    journalName: "Cogent Engineering",
+    issn: "2331-1916",
+    eissn: "2331-1916",
+    publisher: "Taylor & Francis",
+    quartile: "Q2",
+    accessType: "open",
+    submissionFee: 0,
+    matchingAnalysis: [
+      "Focus on engineering and technology",
+      "Multidisciplinary engineering coverage",
+      "Rapid peer review process",
+      "Open access maximizes reach"
+    ],
+    score: 73,
+    apc: "$1,150",
+    profileUrl: "https://www.tandfonline.com/toc/oaen20/current",
+    aimsScopes: "Cogent Engineering publishes research across all areas of engineering and technology.",
+    preferences: "Research articles, technical notes, review papers in engineering"
+  },
+  {
+    id: "14",
+    journalName: "Journal of Open Source Software",
+    issn: "2475-9066",
+    eissn: "2475-9066",
+    publisher: "Open Journals",
+    quartile: "Q2",
+    accessType: "open",
+    submissionFee: 0,
+    matchingAnalysis: [
+      "Perfect for software-based research outputs",
+      "Community-driven peer review",
+      "No publication fees",
+      "High visibility in developer community"
+    ],
+    score: 81,
+    apc: "$0",
+    profileUrl: "https://joss.theoj.org/",
+    aimsScopes: "JOSS is a developer friendly journal for research software packages.",
+    preferences: "Software papers, open source tools, computational methods"
+  },
+  {
+    id: "15",
+    journalName: "European Science Editing",
+    issn: "0258-3127",
+    eissn: "2518-3354",
+    publisher: "EASE",
+    quartile: "Q4",
+    accessType: "hybrid",
+    submissionFee: 0,
+    matchingAnalysis: [
+      "Niche focus on science communication",
+      "Good for editorial and publishing research",
+      "Active professional community",
+      "Reasonable turnaround time"
+    ],
+    score: 58,
+    apc: "$450",
+    profileUrl: "https://ese.arphahub.com/",
+    aimsScopes: "European Science Editing covers all aspects of editing, publishing and communication in science.",
+    preferences: "Research articles, perspectives, reviews on science editing"
+  },
+  {
+    id: "16",
+    journalName: "Open Medicine",
+    issn: "2391-5463",
+    eissn: "2391-5463",
+    publisher: "De Gruyter",
+    quartile: "Q3",
+    accessType: "open",
+    submissionFee: 0,
+    matchingAnalysis: [
+      "Covers clinical and basic medical research",
+      "Indexed in PubMed and Scopus",
+      "Reasonable APC for open access",
+      "International editorial board"
+    ],
+    score: 67,
+    apc: "$1,100",
+    profileUrl: "https://www.degruyter.com/journal/key/med/html",
+    aimsScopes: "Open Medicine publishes peer-reviewed articles in all areas of medicine.",
+    preferences: "Clinical research, basic medical sciences, case reports"
+  },
+  {
+    id: "17",
+    journalName: "Wellcome Open Research",
+    issn: "2398-502X",
+    eissn: "2398-502X",
+    publisher: "F1000 Research Ltd",
+    quartile: "Q1",
+    accessType: "open",
+    submissionFee: 0,
+    matchingAnalysis: [
+      "Prestigious Wellcome Trust backing",
+      "No APC for Wellcome-funded research",
+      "Transparent peer review",
+      "High visibility and impact"
+    ],
+    score: 89,
+    apc: "$0",
+    profileUrl: "https://wellcomeopenresearch.org/",
+    aimsScopes: "Wellcome Open Research is a platform for Wellcome-funded researchers to rapidly publish their research.",
+    preferences: "All Wellcome-funded research, negative results welcome"
+  },
+  {
+    id: "18",
+    journalName: "Cureus",
+    issn: "2168-8184",
+    eissn: "2168-8184",
+    publisher: "Springer Nature",
+    quartile: "Q3",
+    accessType: "open",
+    submissionFee: 0,
+    matchingAnalysis: [
+      "Free publication for medical research",
+      "Fast peer review process",
+      "Strong community engagement",
+      "Good for case reports and reviews"
+    ],
+    score: 64,
+    apc: "$0",
+    profileUrl: "https://www.cureus.com/",
+    aimsScopes: "Cureus is an open access medical journal with a mission to eliminate barriers to publication.",
+    preferences: "Case reports, original research, technical reports, reviews"
+  },
+  {
+    id: "19",
+    journalName: "Frontiers in Psychology",
+    issn: "1664-1078",
+    eissn: "1664-1078",
+    publisher: "Frontiers Media SA",
+    quartile: "Q1",
+    accessType: "open",
+    submissionFee: 0,
+    matchingAnalysis: [
+      "Leading psychology open access journal",
+      "High impact in behavioral sciences",
+      "Collaborative review process",
+      "Strong social media presence"
+    ],
+    score: 86,
+    apc: "$1,450",
+    profileUrl: "https://www.frontiersin.org/journals/psychology",
+    aimsScopes: "Frontiers in Psychology publishes rigorously peer-reviewed research across the psychological sciences.",
+    preferences: "Original research, reviews, methods articles in psychology"
+  },
+  {
+    id: "20",
+    journalName: "Sustainability",
+    issn: "2071-1050",
+    eissn: "2071-1050",
+    publisher: "MDPI AG",
+    quartile: "Q1",
+    accessType: "open",
+    submissionFee: 0,
+    matchingAnalysis: [
+      "Focus on sustainable development research",
+      "Multidisciplinary approach",
+      "High citation rates",
+      "Regular special issues"
+    ],
+    score: 84,
+    apc: "$1,500",
+    profileUrl: "https://www.mdpi.com/journal/sustainability",
+    aimsScopes: "Sustainability publishes peer-reviewed research related to environmental, cultural, economic and social sustainability.",
+    preferences: "Sustainability research, environmental studies, policy analysis"
   }
 ];
