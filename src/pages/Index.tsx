@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { Sparkles, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import FileUpload from "@/components/FileUpload";
+import { Input } from "@/components/ui/input";
 
 const Index = () => {
   const navigate = useNavigate();
   const [file, setFile] = useState<File | null>(null);
+  const [orderName, setOrderName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const canSubmit = !!file;
+  const canSubmit = !!file && orderName.trim().length > 0;
 
   const handleSubmit = async () => {
     if (!canSubmit) return;
@@ -42,6 +44,29 @@ const Index = () => {
         <div className="max-w-2xl mx-auto">
           <div className="card-elevated p-6 md:p-8 animate-slide-up">
             <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+              {/* Order Name Section */}
+              <div className="mb-8">
+                <div className="flex items-center gap-2 mb-4">
+                  <label htmlFor="orderName" className="text-lg font-semibold text-foreground">
+                    Order Name
+                  </label>
+                  <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-destructive/10 text-destructive">
+                    Required
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Enter a name to identify this journal matching request.
+                </p>
+                <Input
+                  id="orderName"
+                  type="text"
+                  placeholder="e.g., Research Paper 2024"
+                  value={orderName}
+                  onChange={(e) => setOrderName(e.target.value)}
+                  className="max-w-md"
+                />
+              </div>
+
               {/* File Upload Section */}
               <div className="mb-8">
                 <div className="flex items-center gap-2 mb-4">
