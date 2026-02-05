@@ -54,16 +54,11 @@ const Index = () => {
                     Required
                   </span>
                 </div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Enter a name to identify this journal matching request.
-                </p>
                 <Input
                   id="orderName"
                   type="text"
-                  placeholder="e.g., Research Paper 2024"
                   value={orderName}
                   onChange={(e) => setOrderName(e.target.value)}
-                  className="max-w-md"
                 />
               </div>
 
@@ -78,7 +73,7 @@ const Index = () => {
                   </span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Upload your research article for AI analysis. Supported formats: DOC, DOCX, PDF.
+                  Supported formats: DOC, DOCX, PDF.
                 </p>
                 <FileUpload onFileSelect={setFile} />
               </div>
