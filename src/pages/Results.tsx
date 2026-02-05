@@ -10,6 +10,7 @@ import JournalResultsTable from "@/components/JournalResultsTable";
 import QuartileSelector from "@/components/QuartileSelector";
 import JournalTypeSelector from "@/components/JournalTypeSelector";
 import AdvancedFilters from "@/components/AdvancedFilters";
+import { Switch } from "@/components/ui/switch";
 import { mockJournalResults } from "@/data/mockJournals";
 import { COLUMN_CONFIGS, ColumnKey, JournalResult } from "@/types/journal";
 import {
@@ -30,6 +31,7 @@ const Results = () => {
   const [exceptHighApcOa, setExceptHighApcOa] = useState(true);
   const [noSubmissionFee, setNoSubmissionFee] = useState(true);
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  const [apcUnder1600, setApcUnder1600] = useState(true);
 
   // Helper function to parse APC string to number
   const parseApc = (apc: string): number => {
@@ -64,6 +66,14 @@ const Results = () => {
     if (noSubmissionFee) {
       data = data.filter((journal) => journal.submissionFee === 0);
     }
+
+    // Filter: APC < 1600USD
+    if (apcUnder1600) {
+      data = data.filter((journal) => {
+        const apcValue = parseApc(journal.apc);
+        return apcValue < 1600;
+      });
+    }
     
     // Sort by score
     data.sort((a, b) =>
@@ -71,7 +81,7 @@ const Results = () => {
     );
     
     return data;
-  }, [selectedQuartiles, journalType, exceptHighApcOa, noSubmissionFee, sortDirection]);
+  }, [selectedQuartiles, journalType, exceptHighApcOa, noSubmissionFee, apcUnder1600, sortDirection]);
 
   const displayedData = useMemo(() => {
     return filteredAndSortedData.slice(0, resultCount);
@@ -164,9 +174,9 @@ const Results = () => {
                 <div className="flex items-center gap-2">
                   <Filter className="w-5 h-5 text-primary" />
                   <span className="text-lg font-semibold text-foreground">Filters</span>
-                  {(selectedQuartiles.length > 0 || journalType || exceptHighApcOa || noSubmissionFee) && (
+                  {(selectedQuartiles.length > 0 || journalType || exceptHighApcOa || noSubmissionFee || apcUnder1600) && (
                     <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-accent/10 text-accent">
-                      {selectedQuartiles.length + (journalType ? 1 : 0) + (exceptHighApcOa ? 1 : 0) + (noSubmissionFee ? 1 : 0)} active
+                      {selectedQuartiles.length + (journalType ? 1 : 0) + (exceptHighApcOa ? 1 : 0) + (noSubmissionFee ? 1 : 0) + (apcUnder1600 ? 1 : 0)} active
                     </span>
                   )}
                 </div>
@@ -196,6 +206,20 @@ const Results = () => {
                   selectedType={journalType}
                   onSelectionChange={setJournalType}
                 />
+              </div>
+
+              {/* APC Filter */}
+              <div>
+                <label className="text-sm font-medium text-foreground mb-3 block">
+                  APC Limit
+                </label>
+                <div className="flex items-center gap-3">
+                  <Switch
+                    checked={apcUnder1600}
+                    onCheckedChange={setApcUnder1600}
+                  />
+                  <span className="text-sm text-foreground">APC &lt; 1600USD</span>
+                </div>
               </div>
 
               {/* Advanced Filters */}
