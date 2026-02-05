@@ -9,6 +9,7 @@ import ResultCountSelector from "@/components/ResultCountSelector";
 import JournalResultsTable from "@/components/JournalResultsTable";
 import QuartileSelector from "@/components/QuartileSelector";
 import JournalTypeSelector from "@/components/JournalTypeSelector";
+import AdvancedFilters from "@/components/AdvancedFilters";
 import { mockJournalResults } from "@/data/mockJournals";
 import { COLUMN_CONFIGS, ColumnKey, JournalResult } from "@/types/journal";
 import {
@@ -26,6 +27,15 @@ const Results = () => {
   const [selectedQuartiles, setSelectedQuartiles] = useState<string[]>([]);
   const [journalType, setJournalType] = useState<string | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const [exceptHighApcOa, setExceptHighApcOa] = useState(true);
+  const [noSubmissionFee, setNoSubmissionFee] = useState(true);
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+
+  // Helper function to parse APC string to number
+  const parseApc = (apc: string): number => {
+    const numStr = apc.replace(/[^0-9.]/g, "");
+    return parseFloat(numStr) || 0;
+  };
 
   // Filter and sort data
   const filteredAndSortedData = useMemo(() => {
@@ -35,6 +45,25 @@ const Results = () => {
     if (selectedQuartiles.length > 0) {
       data = data.filter((journal) => selectedQuartiles.includes(journal.quartile));
     }
+
+    // Filter by journal type
+    if (journalType) {
+      data = data.filter((journal) => journal.accessType === journalType);
+    }
+
+    // Advanced filter: Except APC > 2000USD AND only OA
+    if (exceptHighApcOa) {
+      data = data.filter((journal) => {
+        const apcValue = parseApc(journal.apc);
+        const isHighApcOnlyOa = apcValue > 2000 && journal.accessType === "open";
+        return !isHighApcOnlyOa;
+      });
+    }
+
+    // Advanced filter: No Submission Fee
+    if (noSubmissionFee) {
+      data = data.filter((journal) => journal.submissionFee === 0);
+    }
     
     // Sort by score
     data.sort((a, b) =>
@@ -42,7 +71,7 @@ const Results = () => {
     );
     
     return data;
-  }, [selectedQuartiles, sortDirection]);
+  }, [selectedQuartiles, journalType, exceptHighApcOa, noSubmissionFee, sortDirection]);
 
   const displayedData = useMemo(() => {
     return filteredAndSortedData.slice(0, resultCount);
@@ -135,9 +164,9 @@ const Results = () => {
                 <div className="flex items-center gap-2">
                   <Filter className="w-5 h-5 text-primary" />
                   <span className="text-lg font-semibold text-foreground">Filters</span>
-                  {(selectedQuartiles.length > 0 || journalType) && (
+                  {(selectedQuartiles.length > 0 || journalType || exceptHighApcOa || noSubmissionFee) && (
                     <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-accent/10 text-accent">
-                      {selectedQuartiles.length + (journalType ? 1 : 0)} active
+                      {selectedQuartiles.length + (journalType ? 1 : 0) + (exceptHighApcOa ? 1 : 0) + (noSubmissionFee ? 1 : 0)} active
                     </span>
                   )}
                 </div>
@@ -168,6 +197,16 @@ const Results = () => {
                   onSelectionChange={setJournalType}
                 />
               </div>
+
+              {/* Advanced Filters */}
+              <AdvancedFilters
+                exceptHighApcOa={exceptHighApcOa}
+                noSubmissionFee={noSubmissionFee}
+                onExceptHighApcOaChange={setExceptHighApcOa}
+                onNoSubmissionFeeChange={setNoSubmissionFee}
+                isVisible={showAdvancedFilters}
+                onToggleVisibility={() => setShowAdvancedFilters(!showAdvancedFilters)}
+              />
             </CollapsibleContent>
           </div>
         </Collapsible>
