@@ -38,7 +38,7 @@
        </button>
  
        {isVisible && (
-         <div className="mt-4 space-y-3">
+        <div className="mt-4 flex flex-wrap gap-6">
            <label className="flex items-center gap-3 cursor-pointer group">
              <div
                className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
@@ -54,7 +54,6 @@
                Except APC &gt; 2000USD ∩ only OA
              </span>
            </label>
- 
            <label className="flex items-center gap-3 cursor-pointer group">
              <div
                className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
