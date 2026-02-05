@@ -5,6 +5,8 @@ export interface JournalResult {
   eissn: string;
   publisher: string;
   quartile: "Q1" | "Q2" | "Q3" | "Q4";
+  accessType: "open" | "closed" | "hybrid";
+  submissionFee: number;
   matchingAnalysis: string[];
   score: number;
   apc: string;
