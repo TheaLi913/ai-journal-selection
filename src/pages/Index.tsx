@@ -31,10 +31,6 @@ const Index = () => {
       <main className="container mx-auto px-4 py-8 md:py-12">
         {/* Hero Section */}
         <div className="text-center mb-10 animate-fade-in">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-sm font-medium mb-4">
-            <Sparkles className="w-4 h-4" />
-            AI-Powered Journal Matching
-          </div>
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground">
             Find the Perfect Journal
           </h1>
