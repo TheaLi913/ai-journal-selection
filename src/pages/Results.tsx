@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
 import { Download, FileOutput, ArrowLeft, Filter } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import * as XLSX from "xlsx";
+import { toast } from "sonner";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import ColumnVisibilityToggle from "@/components/ColumnVisibilityToggle";
@@ -99,6 +100,14 @@ const Results = () => {
     setSortDirection((prev) => (prev === "desc" ? "asc" : "desc"));
   };
 
+  const handleSaveToRecords = () => {
+    // In a real app, this would save to backend/database
+    // For now, show a success toast as a placeholder
+    toast.success("Query saved to Records", {
+      description: `Saved ${displayedData.length} matching journals with current filters.`,
+    });
+  };
+
   const handleExport = () => {
     // Filter first, then sort by score descending for export
     let exportData = [...mockJournalResults];
@@ -169,9 +178,9 @@ const Results = () => {
         {/* Filter Section */}
         <Collapsible open={isFilterOpen} onOpenChange={setIsFilterOpen} className="mb-6 animate-slide-up">
           <div className="card-elevated p-4 md:p-6">
-            <CollapsibleTrigger asChild>
-              <button className="flex items-center justify-between w-full text-left">
-                <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between w-full">
+              <CollapsibleTrigger asChild>
+                <button className="flex items-center gap-2 text-left">
                   <Filter className="w-5 h-5 text-primary" />
                   <span className="text-lg font-semibold text-foreground">Filters</span>
                   {(selectedQuartiles.length > 0 || journalType || exceptHighApcOa || noSubmissionFee || apcUnder1600) && (
@@ -179,12 +188,22 @@ const Results = () => {
                       {selectedQuartiles.length + (journalType ? 1 : 0) + (exceptHighApcOa ? 1 : 0) + (noSubmissionFee ? 1 : 0) + (apcUnder1600 ? 1 : 0)} active
                     </span>
                   )}
-                </div>
-                <span className="text-sm text-muted-foreground">
-                  {isFilterOpen ? "Hide" : "Show"}
-                </span>
-              </button>
-            </CollapsibleTrigger>
+                </button>
+              </CollapsibleTrigger>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handleSaveToRecords}
+                  className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                >
+                  Save
+                </button>
+                <CollapsibleTrigger asChild>
+                  <button className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    {isFilterOpen ? "Hide" : "Show"}
+                  </button>
+                </CollapsibleTrigger>
+              </div>
+            </div>
             <CollapsibleContent className="pt-4 space-y-6">
               {/* Quartile Filter */}
               <div>
