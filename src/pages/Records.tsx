@@ -331,7 +331,7 @@ const Records = () => {
                       </TableCell>
                       <TableCell>
                         <Link
-                          to={`/results?id=${record.resultId}`}
+                          to={`/resultlink?id=${record.resultId}`}
                           className="inline-flex items-center gap-1 text-primary hover:underline text-sm"
                         >
                           View Results
