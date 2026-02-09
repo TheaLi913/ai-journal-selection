@@ -35,7 +35,7 @@ import { SearchRecord } from "@/types/record";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 10;
 
 const months = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
