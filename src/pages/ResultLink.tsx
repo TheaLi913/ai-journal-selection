@@ -4,7 +4,6 @@ import { Link, useSearchParams } from "react-router-dom";
 import * as XLSX from "xlsx";
 import { Button } from "@/components/ui/button";
 import ColumnVisibilityToggle from "@/components/ColumnVisibilityToggle";
-import ResultCountSelector from "@/components/ResultCountSelector";
 import JournalResultsTable from "@/components/JournalResultsTable";
 import { mockJournalResults } from "@/data/mockJournals";
 import { COLUMN_CONFIGS, ColumnKey } from "@/types/journal";
@@ -247,7 +246,7 @@ const ResultLink = () => {
 
         {/* Controls Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 p-4 bg-card/60 backdrop-blur-sm border border-border rounded-lg animate-slide-up">
-          <ResultCountSelector value={resultCount} onChange={setResultCount} />
+          <span className="text-sm text-muted-foreground">Show {resultCount} results</span>
           <ColumnVisibilityToggle
             visibleColumns={visibleColumns}
             onToggle={handleColumnToggle}
