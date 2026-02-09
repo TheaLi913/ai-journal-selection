@@ -148,7 +148,7 @@ const Records = () => {
 
   return (
     <div className="min-h-screen gradient-hero">
-      <Header />
+      <Header disableResults />
       <main className="container mx-auto px-4 py-12">
         {/* Search and Filter Section */}
         <div className="max-w-5xl mx-auto mb-6">
