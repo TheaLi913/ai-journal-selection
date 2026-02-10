@@ -125,6 +125,14 @@ const Results = () => {
       articleFileName,
       articleFileUrl: "#",
       resultId: `result-${Date.now()}`,
+      filters: {
+        quartiles: selectedQuartiles,
+        journalType,
+        exceptHighApcOa,
+        noSubmissionFee,
+        apcUnder1600,
+        resultCount,
+      },
     };
     saveRecord(newRecord);
     toast.success("Query saved to Records", {
