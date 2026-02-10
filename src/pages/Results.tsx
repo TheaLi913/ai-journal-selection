@@ -138,6 +138,10 @@ const Results = () => {
     saveRecord(newRecord);
     toast.success("Query saved to Records", {
       description: `Saved ${displayedData.length} matching journals with current filters.`,
+      action: {
+        label: "View Records",
+        onClick: () => navigate("/records"),
+      },
     });
   };
 
