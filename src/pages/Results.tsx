@@ -266,7 +266,7 @@ const Results = () => {
 
         {/* Controls Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 p-4 bg-card/60 backdrop-blur-sm border border-border rounded-lg animate-slide-up">
-          <ResultCountSelector value={resultCount} onChange={setResultCount} />
+          <ResultCountSelector value={resultCount} onChange={setResultCount} totalMatched={filteredAndSortedData.length} />
           <ColumnVisibilityToggle
             visibleColumns={visibleColumns}
             onToggle={handleColumnToggle}
