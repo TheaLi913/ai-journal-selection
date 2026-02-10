@@ -14,6 +14,7 @@ interface ResultCountSelectorProps {
 
 const ResultCountSelector = ({ value, onChange, totalMatched }: ResultCountSelectorProps) => {
   const options = Array.from({ length: 20 }, (_, i) => i + 1);
+  const max = totalMatched ?? 20;
 
   return (
     <div className="flex items-center gap-2">
@@ -25,16 +26,16 @@ const ResultCountSelector = ({ value, onChange, totalMatched }: ResultCountSelec
         <SelectTrigger className="w-20">
           <SelectValue />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="bg-popover z-50">
           {options.map((num) => (
-            <SelectItem key={num} value={num.toString()}>
+            <SelectItem key={num} value={num.toString()} disabled={num > max}>
               {num}
             </SelectItem>
           ))}
         </SelectContent>
       </Select>
       <span className="text-sm text-muted-foreground">
-        of {totalMatched !== undefined ? totalMatched : value} results
+        of {max} results
       </span>
     </div>
   );
