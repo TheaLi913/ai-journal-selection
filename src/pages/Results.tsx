@@ -25,6 +25,7 @@ import {
 const Results = () => {
   const navigate = useNavigate();
   const [resultCount, setResultCount] = useState(8);
+  const [userSelectedCount, setUserSelectedCount] = useState(8);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [visibleColumns, setVisibleColumns] = useState<ColumnKey[]>(
     COLUMN_CONFIGS.filter((c) => c.defaultVisible).map((c) => c.key)
@@ -87,13 +88,15 @@ const Results = () => {
     return data;
   }, [selectedQuartiles, journalType, exceptHighApcOa, noSubmissionFee, apcUnder1600, sortDirection]);
 
-  // Auto-clamp resultCount when filtered results shrink
+  // Auto-clamp resultCount, restore user's choice when possible
   useEffect(() => {
     const max = filteredAndSortedData.length || 1;
-    if (resultCount > max) {
+    if (userSelectedCount <= max) {
+      setResultCount(userSelectedCount);
+    } else {
       setResultCount(max);
     }
-  }, [filteredAndSortedData.length, resultCount]);
+  }, [filteredAndSortedData.length, userSelectedCount]);
 
   const displayedData = useMemo(() => {
     return filteredAndSortedData.slice(0, resultCount);
@@ -274,7 +277,7 @@ const Results = () => {
 
         {/* Controls Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 p-4 bg-card/60 backdrop-blur-sm border border-border rounded-lg animate-slide-up">
-          <ResultCountSelector value={resultCount} onChange={setResultCount} totalMatched={filteredAndSortedData.length} />
+          <ResultCountSelector value={resultCount} onChange={(v) => { setUserSelectedCount(v); setResultCount(v); }} totalMatched={filteredAndSortedData.length} />
           <ColumnVisibilityToggle
             visibleColumns={visibleColumns}
             onToggle={handleColumnToggle}
