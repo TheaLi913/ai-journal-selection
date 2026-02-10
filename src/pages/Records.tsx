@@ -30,7 +30,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { mockRecords } from "@/data/mockRecords";
+import { getRecords, deleteRecords as deleteStoredRecords } from "@/lib/recordStorage";
 import { SearchRecord } from "@/types/record";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -43,7 +43,7 @@ const months = [
 ];
 
 const Records = () => {
-  const [records, setRecords] = useState<SearchRecord[]>(mockRecords);
+  const [records, setRecords] = useState<SearchRecord[]>(() => getRecords());
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [searchOrderName, setSearchOrderName] = useState("");
   const [appliedSearchOrderName, setAppliedSearchOrderName] = useState("");
@@ -132,12 +132,14 @@ const Records = () => {
   };
 
   const handleDeleteSelected = () => {
+    deleteStoredRecords(selectedIds);
     setRecords((prev) => prev.filter((r) => !selectedIds.includes(r.id)));
     toast.success(`Deleted ${selectedIds.length} record(s)`);
     setSelectedIds([]);
   };
 
   const handleDeleteOne = (id: string) => {
+    deleteStoredRecords([id]);
     setRecords((prev) => prev.filter((r) => r.id !== id));
     toast.success("Record deleted");
     setSelectedIds((prev) => prev.filter((i) => i !== id));

@@ -3,7 +3,9 @@ import { Download, FileOutput, ArrowLeft, Filter } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import * as XLSX from "xlsx";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
+import { saveRecord } from "@/lib/recordStorage";
 import { Button } from "@/components/ui/button";
 import ColumnVisibilityToggle from "@/components/ColumnVisibilityToggle";
 import ResultCountSelector from "@/components/ResultCountSelector";
@@ -21,6 +23,7 @@ import {
 } from "@/components/ui/collapsible";
 
 const Results = () => {
+  const navigate = useNavigate();
   const [resultCount, setResultCount] = useState(8);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [visibleColumns, setVisibleColumns] = useState<ColumnKey[]>(
@@ -101,8 +104,15 @@ const Results = () => {
   };
 
   const handleSaveToRecords = () => {
-    // In a real app, this would save to backend/database
-    // For now, show a success toast as a placeholder
+    const newRecord = {
+      id: crypto.randomUUID(),
+      time: new Date(),
+      orderName: "Untitled_Query",
+      articleFileName: "article.pdf",
+      articleFileUrl: "#",
+      resultId: `result-${Date.now()}`,
+    };
+    saveRecord(newRecord);
     toast.success("Query saved to Records", {
       description: `Saved ${displayedData.length} matching journals with current filters.`,
     });
