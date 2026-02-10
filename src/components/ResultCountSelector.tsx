@@ -9,9 +9,10 @@ import {
 interface ResultCountSelectorProps {
   value: number;
   onChange: (value: number) => void;
+  totalMatched?: number;
 }
 
-const ResultCountSelector = ({ value, onChange }: ResultCountSelectorProps) => {
+const ResultCountSelector = ({ value, onChange, totalMatched }: ResultCountSelectorProps) => {
   const options = Array.from({ length: 20 }, (_, i) => i + 1);
 
   return (
@@ -32,7 +33,9 @@ const ResultCountSelector = ({ value, onChange }: ResultCountSelectorProps) => {
           ))}
         </SelectContent>
       </Select>
-      <span className="text-sm text-muted-foreground">results</span>
+      <span className="text-sm text-muted-foreground">
+        of {totalMatched !== undefined ? totalMatched : value} results
+      </span>
     </div>
   );
 };
