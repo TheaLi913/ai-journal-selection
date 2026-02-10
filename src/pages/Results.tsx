@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Download, FileOutput, ArrowLeft, Filter } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import * as XLSX from "xlsx";
@@ -86,6 +86,14 @@ const Results = () => {
     
     return data;
   }, [selectedQuartiles, journalType, exceptHighApcOa, noSubmissionFee, apcUnder1600, sortDirection]);
+
+  // Auto-clamp resultCount when filtered results shrink
+  useEffect(() => {
+    const max = filteredAndSortedData.length || 1;
+    if (resultCount > max) {
+      setResultCount(max);
+    }
+  }, [filteredAndSortedData.length, resultCount]);
 
   const displayedData = useMemo(() => {
     return filteredAndSortedData.slice(0, resultCount);
