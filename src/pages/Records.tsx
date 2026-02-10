@@ -247,6 +247,9 @@ const Records = () => {
                 <Search className="h-4 w-4 mr-1" />
                 Search
               </Button>
+              <Button variant="outline" onClick={handleClearFilters} className="shrink-0">
+                Reset
+              </Button>
             </div>
 
             {/* Batch Delete Button */}
