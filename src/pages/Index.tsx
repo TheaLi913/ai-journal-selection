@@ -20,7 +20,10 @@ const Index = () => {
     // Simulate API call
     setTimeout(() => {
       setIsSubmitting(false);
-      navigate("/results");
+      const params = new URLSearchParams();
+      params.set("orderName", orderName.trim());
+      if (file) params.set("articleFileName", file.name);
+      navigate(`/results?${params.toString()}`);
     }, 2000);
   };
 

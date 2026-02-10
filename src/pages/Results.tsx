@@ -24,6 +24,9 @@ import {
 
 const Results = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const orderName = searchParams.get("orderName") || "Untitled_Query";
+  const articleFileName = searchParams.get("articleFileName") || "article.pdf";
   const [resultCount, setResultCount] = useState(8);
   const [userSelectedCount, setUserSelectedCount] = useState(8);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
@@ -118,8 +121,8 @@ const Results = () => {
     const newRecord = {
       id: crypto.randomUUID(),
       time: new Date(),
-      orderName: "Untitled_Query",
-      articleFileName: "article.pdf",
+      orderName,
+      articleFileName,
       articleFileUrl: "#",
       resultId: `result-${Date.now()}`,
     };
