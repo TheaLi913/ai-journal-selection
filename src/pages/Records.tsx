@@ -241,41 +241,40 @@ const Records = () => {
                   onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 />
               </div>
-            </div>
 
-            <div className="flex items-center gap-2 shrink-0">
-              <Button onClick={handleSearch}>
+              {/* Search Button */}
+              <Button onClick={handleSearch} className="shrink-0">
                 <Search className="h-4 w-4 mr-1" />
                 Search
               </Button>
-              <Button variant="outline" onClick={handleClearFilters}>
+              <Button variant="outline" onClick={handleClearFilters} className="shrink-0">
                 Reset
               </Button>
-
-              {/* Batch Delete Button */}
-              {selectedIds.length > 0 && (
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="destructive" size="sm">
-                      <Trash2 className="h-4 w-4 mr-1" />
-                      Delete ({selectedIds.length})
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Delete Records</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Are you sure you want to delete {selectedIds.length} selected record(s)? This action cannot be undone.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={handleDeleteSelected}>Delete</AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              )}
             </div>
+
+            {/* Batch Delete Button */}
+            {selectedIds.length > 0 && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" size="sm">
+                    <Trash2 className="h-4 w-4 mr-1" />
+                    Delete ({selectedIds.length})
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Delete Records</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Are you sure you want to delete {selectedIds.length} selected record(s)? This action cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleDeleteSelected}>Delete</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
           </div>
         </div>
 
