@@ -28,13 +28,16 @@ const ResultLink = () => {
   const [searchParams] = useSearchParams();
   const recordId = searchParams.get("id");
 
-  // Load saved filters from the record
-  const savedFilters = useMemo<SavedFilters>(() => {
-    if (!recordId) return defaultFilters;
+  // Load saved record
+  const savedRecord = useMemo(() => {
+    if (!recordId) return null;
     const records = getRecords();
-    const record = records.find((r) => r.resultId === recordId);
-    return record?.filters ?? defaultFilters;
+    return records.find((r) => r.resultId === recordId) ?? null;
   }, [recordId]);
+
+  const savedFilters = savedRecord?.filters ?? defaultFilters;
+  const savedOrderName = savedRecord?.orderName ?? "Unknown";
+  const savedArticleFileName = savedRecord?.articleFileName ?? "Unknown";
 
   const savedQuartiles = savedFilters.quartiles;
   const savedJournalType = savedFilters.journalType;
@@ -163,6 +166,10 @@ const ResultLink = () => {
                 </h1>
               </div>
               <p className="text-muted-foreground">
+                <span className="font-medium text-foreground">{savedOrderName}</span>
+                {" · "}
+                <span>{savedArticleFileName}</span>
+                {" · "}
                 Viewing {displayedData.length} saved journal results.
               </p>
             </div>
