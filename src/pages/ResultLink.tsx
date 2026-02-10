@@ -7,24 +7,42 @@ import ColumnVisibilityToggle from "@/components/ColumnVisibilityToggle";
 import JournalResultsTable from "@/components/JournalResultsTable";
 import { mockJournalResults } from "@/data/mockJournals";
 import { COLUMN_CONFIGS, ColumnKey } from "@/types/journal";
+import { getRecords } from "@/lib/recordStorage";
+import { SavedFilters } from "@/types/record";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 
+const defaultFilters: SavedFilters = {
+  quartiles: [],
+  journalType: null,
+  exceptHighApcOa: true,
+  noSubmissionFee: true,
+  apcUnder1600: true,
+  resultCount: 8,
+};
+
 const ResultLink = () => {
   const [searchParams] = useSearchParams();
   const recordId = searchParams.get("id");
 
-  // These filter values are "saved" from the record — read-only display
-  const savedQuartiles = ["Q1", "Q2"];
-  const savedJournalType: string | null = null;
-  const savedExceptHighApcOa = true;
-  const savedNoSubmissionFee = true;
-  const savedApcUnder1600 = true;
+  // Load saved filters from the record
+  const savedFilters = useMemo<SavedFilters>(() => {
+    if (!recordId) return defaultFilters;
+    const records = getRecords();
+    const record = records.find((r) => r.resultId === recordId);
+    return record?.filters ?? defaultFilters;
+  }, [recordId]);
 
-  const [resultCount, setResultCount] = useState(8);
+  const savedQuartiles = savedFilters.quartiles;
+  const savedJournalType = savedFilters.journalType;
+  const savedExceptHighApcOa = savedFilters.exceptHighApcOa;
+  const savedNoSubmissionFee = savedFilters.noSubmissionFee;
+  const savedApcUnder1600 = savedFilters.apcUnder1600;
+  const savedResultCount = savedFilters.resultCount;
+
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [visibleColumns, setVisibleColumns] = useState<ColumnKey[]>(
     COLUMN_CONFIGS.filter((c) => c.defaultVisible).map((c) => c.key)
@@ -71,11 +89,11 @@ const ResultLink = () => {
     );
 
     return data;
-  }, [sortDirection]);
+  }, [savedQuartiles, savedJournalType, savedExceptHighApcOa, savedNoSubmissionFee, savedApcUnder1600, sortDirection]);
 
   const displayedData = useMemo(() => {
-    return filteredAndSortedData.slice(0, resultCount);
-  }, [filteredAndSortedData, resultCount]);
+    return filteredAndSortedData.slice(0, savedResultCount);
+  }, [filteredAndSortedData, savedResultCount]);
 
   const handleColumnToggle = (column: ColumnKey) => {
     setVisibleColumns((prev) =>
@@ -90,7 +108,7 @@ const ResultLink = () => {
   };
 
   const handleExport = () => {
-    const exportData = filteredAndSortedData.slice(0, resultCount);
+    const exportData = filteredAndSortedData.slice(0, savedResultCount);
 
     const worksheetData = exportData.map((journal) => ({
       "Journal Name": journal.journalName,
@@ -246,7 +264,7 @@ const ResultLink = () => {
 
         {/* Controls Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 p-4 bg-card/60 backdrop-blur-sm border border-border rounded-lg animate-slide-up">
-          <span className="text-sm text-muted-foreground">Show {resultCount} results</span>
+          <span className="text-sm text-muted-foreground">Show {savedResultCount} results</span>
           <ColumnVisibilityToggle
             visibleColumns={visibleColumns}
             onToggle={handleColumnToggle}
