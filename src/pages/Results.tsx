@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { Download, FileOutput, ArrowLeft, Filter } from "lucide-react";
+import { Download, FileOutput, Filter } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import * as XLSX from "xlsx";
 import { toast } from "sonner";
@@ -14,6 +14,7 @@ import QuartileSelector from "@/components/QuartileSelector";
 import JournalTypeSelector from "@/components/JournalTypeSelector";
 import AdvancedFilters from "@/components/AdvancedFilters";
 import { Switch } from "@/components/ui/switch";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { mockJournalResults } from "@/data/mockJournals";
 import { COLUMN_CONFIGS, ColumnKey, JournalResult } from "@/types/journal";
 import {
@@ -175,19 +176,17 @@ const Results = () => {
       <main className="container mx-auto px-4 py-8 md:py-12">
         {/* Page Header */}
         <div className="mb-8 animate-fade-in">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Search
-          </Link>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <FileOutput className="w-5 h-5 text-primary" />
-                </div>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link to="/" className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors cursor-pointer">
+                      <FileOutput className="w-5 h-5 text-primary" />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>Back to Search</TooltipContent>
+                </Tooltip>
                 <h1 className="text-2xl md:text-3xl font-serif font-bold text-foreground">
                   Matching Results
                 </h1>

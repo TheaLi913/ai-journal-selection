@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Download, FileOutput, ArrowLeft, Filter } from "lucide-react";
+import { Download, FileOutput, Filter } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import * as XLSX from "xlsx";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const defaultFilters: SavedFilters = {
   quartiles: [],
@@ -148,19 +149,17 @@ const ResultLink = () => {
       <main className="container mx-auto px-4 py-8 md:py-12">
         {/* Page Header */}
         <div className="mb-8 animate-fade-in">
-          <Link
-            to="/records"
-            className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Records
-          </Link>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <FileOutput className="w-5 h-5 text-primary" />
-                </div>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link to="/records" className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors cursor-pointer">
+                      <FileOutput className="w-5 h-5 text-primary" />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>Back to Records</TooltipContent>
+                </Tooltip>
                 <h1 className="text-2xl md:text-3xl font-serif font-bold text-foreground">
                   Saved Results
                 </h1>
