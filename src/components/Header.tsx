@@ -23,7 +23,7 @@ const Header = ({ disableResults = false }: HeaderProps) => {
               <BookOpen className="w-5 h-5 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-serif font-bold text-foreground">JournalAI</h1>
+              <h1 className="text-xl font-serif font-bold text-foreground">Journal AI</h1>
               <p className="text-xs text-muted-foreground">Smart Journal Selection</p>
             </div>
           </Link>
