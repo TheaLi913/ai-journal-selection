@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Sparkles, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import FileUpload from "@/components/FileUpload";
+import SubjectAreaFilter from "@/components/SubjectAreaFilter";
 import { Input } from "@/components/ui/input";
 
 const Index = () => {
@@ -10,6 +11,8 @@ const Index = () => {
   const [file, setFile] = useState<File | null>(null);
   const [orderName, setOrderName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [majorField, setMajorField] = useState<string | null>(null);
+  const [subField, setSubField] = useState<string | null>(null);
 
   const canSubmit = !!file && orderName.trim().length > 0;
 
@@ -23,6 +26,8 @@ const Index = () => {
       const params = new URLSearchParams();
       params.set("orderName", orderName.trim());
       if (file) params.set("articleFileName", file.name);
+      if (majorField) params.set("majorField", majorField);
+      if (subField) params.set("subField", subField);
       navigate(`/results?${params.toString()}`);
     }, 2000);
   };
@@ -75,6 +80,16 @@ const Index = () => {
                   Supported formats: DOC, DOCX, PDF.
                 </p>
                 <FileUpload onFileSelect={setFile} />
+              </div>
+
+              {/* Subject Area Filter */}
+              <div className="mb-8">
+                <SubjectAreaFilter
+                  majorField={majorField}
+                  subField={subField}
+                  onMajorFieldChange={setMajorField}
+                  onSubFieldChange={setSubField}
+                />
               </div>
 
               {/* Submit Button */}
